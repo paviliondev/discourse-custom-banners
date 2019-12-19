@@ -43,8 +43,9 @@ const init = (api) => {
                     $(node).css("width", box.width);
                     $(categoryHeaderHtml).append(node);
                 });
-                 
+
                 this.$().closest('#main-outlet').prepend(categoryHeaderHtml);
+                eval(settings.categories_javascript_code);
             } else {
                 // discovery page
                 // show banner
@@ -58,6 +59,7 @@ const init = (api) => {
                 
                 this.$().closest('#main-outlet').prepend(headerHtml);
             }
+            eval(settings.discovery_javascript_code);
           });
     }
    });

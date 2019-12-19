@@ -1,0 +1,8 @@
+en: 
+  theme_metadata:
+    settings:
+      discovery_page_block_html_1: "HTML for block 1 on the discovery page"
+      discovery_page_block_html_2: "HTML for block 2 on the discovery page"
+      discovery_page_block_html_3: "HTML for block 3 on the discovery page"
+      discovery_javascript_code: "JavaScript code to be executed on discovery banner"
+      categories_javascript_code: "JavaScript code to be executed on discovery category banner"
