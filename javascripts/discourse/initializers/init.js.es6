@@ -58,8 +58,8 @@ const init = (api) => {
                     </div>`;
                 
                 this.$().closest('#main-outlet').prepend(headerHtml);
+                eval(settings.discovery_javascript_code);
             }
-            eval(settings.discovery_javascript_code);
           });
     }
    });
