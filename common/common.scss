@@ -1,0 +1,22 @@
+.rstudio-banner {
+    height: 300px;
+    width: 100%;
+    margin: 5px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.rstudio-block {
+    width: 32%;
+    height: 95%;
+    margin: 5px;
+    border: 1px solid black;
+    display: inline-block;
+    border-radius: 8px;
+}
+
+.rstudio-cat-block {
+    border: 1px solid black;
+    display: inline-block;
+}

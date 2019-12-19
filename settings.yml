@@ -1,0 +1,17 @@
+discovery_page_block_html_1:
+  default: ""
+  type: string
+  description: "This text will be displayed under this setting and it explains what the setting does!"
+discovery_page_block_html_2:
+  default: ""
+  type: string
+  description: "This text will be displayed under this setting and it explains what the setting does!"
+discovery_page_block_html_3:
+  default: ""
+  type: string
+  description: "This text will be displayed under this setting and it explains what the setting does!"
+
+discovery_categories_html:
+  default: ""
+  type: list
+  
