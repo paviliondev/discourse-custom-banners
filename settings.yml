@@ -9,6 +9,10 @@ discovery_page_block_html_3:
   default: ""
   type: string
 
+discovery_page_second_block_html:
+  default: ""
+  type: string
+
 discovery_javascript_code:
   default: ""
   type: string

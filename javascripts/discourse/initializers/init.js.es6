@@ -45,7 +45,7 @@ const init = (api) => {
                 });
 
                 this.$().closest('#main-outlet').prepend(categoryHeaderHtml);
-                eval(settings.categories_javascript_code);
+                eval(renderSettings.javascript_code);
             } else {
                 // discovery page
                 // show banner
@@ -56,8 +56,13 @@ const init = (api) => {
                     <div class="rstudio-block b2">${settings.discovery_page_block_html_2}</div>
                     <div class="rstudio-block b3">${settings.discovery_page_block_html_3}</div>
                     </div>`;
+
+                const secondHtml = `<div class="rstudio-banner rstudio-below">
+                ${settings.discovery_page_second_block_html}
+                </div>
+                `;
                 
-                this.$().closest('#main-outlet').prepend(headerHtml);
+                this.$().closest('#main-outlet').prepend(headerHtml+secondHtml);
                 eval(settings.discovery_javascript_code);
             }
           });
