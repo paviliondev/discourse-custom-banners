@@ -25,11 +25,13 @@ const jsonParseSafe = (json) => {
 
 const init = (api) => {
    api.modifyClass('component:topic-list', {
+    @on('didInsertElement')
     @on('didRender')
     applyMods() {
         schedule('afterRender', () => {
             const category = this.get('category');
             if(category) {
+                this.$().closest('#main-outlet').find('.rstudio-top-block').remove();
                 this.$().closest('#main-outlet').find('.rstudio-banner').remove();
                 const catList = settings.discovery_categories_html.split('|');
                 const catListParsed = catList.map(obj => jsonParseSafe(obj));
@@ -38,9 +40,13 @@ const init = (api) => {
                 const renderSettings = cat;
                 const categoryHeaderHtml = $.parseHTML(`<div class="rstudio-banner"></div>`);
                 $(categoryHeaderHtml).css('height', renderSettings.height);
+
                 renderSettings.boxes.forEach((box) => {
                     const node = $.parseHTML(`<div class="rstudio-cat-block">${box.content}</div>`);
                     $(node).css("width", box.width);
+                    if(box.id) {
+                        $(node).attr('id', box.id);
+                    }
                     $(categoryHeaderHtml).append(node);
                 });
 
@@ -49,20 +55,21 @@ const init = (api) => {
             } else {
                 // discovery page
                 // show banner
+                this.$().closest('#main-outlet').find('.rstudio-top-block').remove();
                 this.$().closest('#main-outlet').find('.rstudio-banner').remove();
-
+                console.log(check);
                 const headerHtml = `<div class="rstudio-banner">
                     <div class="rstudio-block b1">${settings.discovery_page_block_html_1}</div>
                     <div class="rstudio-block b2">${settings.discovery_page_block_html_2}</div>
                     <div class="rstudio-block b3">${settings.discovery_page_block_html_3}</div>
                     </div>`;
 
-                const secondHtml = `<div class="rstudio-banner rstudio-below">
-                ${settings.discovery_page_second_block_html}
+                const topBlock = `<div class="rstudio-top-block">
+                ${settings.discovery_page_top_block_html}
                 </div>
                 `;
                 
-                this.$().closest('#main-outlet').prepend(headerHtml+secondHtml);
+                this.$().closest('#main-outlet').prepend(topBlock+headerHtml);
                 eval(settings.discovery_javascript_code);
             }
           });

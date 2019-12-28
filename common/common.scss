@@ -1,10 +1,17 @@
-.rstudio-banner {
+.rstudio-banner, .rstudio-top-block {
     height: 300px;
     width: 100%;
     margin: 5px 0;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    background-clip: border-box
+}
+.rstudio-top-block {
+    background: blue;
+    border: 1px solid black;
+    border-radius: 8px;
+    background-clip: border-box;
 }
 
 .rstudio-block {
