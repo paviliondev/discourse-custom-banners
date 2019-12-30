@@ -21,7 +21,3 @@ discovery_javascript_code:
 discovery_categories_html:
   default: ""
   type: list
-
-categories_javascript_code:
-  default: ""
-  type: string
