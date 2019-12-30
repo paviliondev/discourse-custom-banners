@@ -51,13 +51,14 @@ const init = (api) => {
                 });
 
                 this.$().closest('#main-outlet').prepend(categoryHeaderHtml);
-                eval(renderSettings.javascript_code);
+                if(renderSettings.javascript_code) {
+                    eval(renderSettings.javascript_code);
+                }
             } else {
                 // discovery page
                 // show banner
                 this.$().closest('#main-outlet').find('.rstudio-top-block').remove();
                 this.$().closest('#main-outlet').find('.rstudio-banner').remove();
-                console.log(check);
                 const headerHtml = `<div class="rstudio-banner">
                     <div class="rstudio-block b1">${settings.discovery_page_block_html_1}</div>
                     <div class="rstudio-block b2">${settings.discovery_page_block_html_2}</div>
@@ -70,7 +71,10 @@ const init = (api) => {
                 `;
                 
                 this.$().closest('#main-outlet').prepend(topBlock+headerHtml);
-                eval(settings.discovery_javascript_code);
+                
+                if(settings.discovery_javascript_code) {
+                    eval(settings.discovery_javascript_code);
+                }
             }
           });
     }

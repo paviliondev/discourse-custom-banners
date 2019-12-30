@@ -13,9 +13,9 @@ discovery_page_top_block_html:
   default: ""
   type: string
 
-discovery_javascript_code:
-  default: ""
-  type: string
+# discovery_javascript_code:
+#   default: ""
+#   type: string
 
 
 discovery_categories_html:
