@@ -24,8 +24,9 @@ const jsonParseSafe = (json) => {
 }
 
 const init = (api) => {
+
    api.modifyClass('component:topic-list', {
-    @on('didInsertElement')
+    // @on('didInsertElement')
     @on('didRender')
     applyMods() {
         schedule('afterRender', () => {
@@ -77,6 +78,12 @@ const init = (api) => {
                 }
             }
           });
+    } ,
+    @on('willDestroyElement')
+    removeBanner(){
+        this.$().closest('#main-outlet').find('.rstudio-top-block').remove();
+        this.$().closest('#main-outlet').find('.rstudio-banner').remove();
+
     }
    });
 } 
