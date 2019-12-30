@@ -26,10 +26,9 @@ const jsonParseSafe = (json) => {
 const init = (api) => {
 
    api.modifyClass('component:topic-list', {
-    // @on('didInsertElement')
     @on('didRender')
     applyMods() {
-        schedule('afterRender', () => {
+        // schedule('afterRender', () => {
             const category = this.get('category');
             if(category) {
                 this.$().closest('#main-outlet').find('.rstudio-top-block').remove();
@@ -77,7 +76,7 @@ const init = (api) => {
                     eval(settings.discovery_javascript_code);
                 }
             }
-          });
+        //   });
     } ,
     @on('willDestroyElement')
     removeBanner(){
@@ -85,4 +84,34 @@ const init = (api) => {
         this.$().closest('#main-outlet').find('.rstudio-banner').remove();
     }
    });
-} 
+
+   api.modifyClass('component:categories-only', {
+       @on('didRender')
+       applyMods(){
+        $('#main-outlet').find('.rstudio-top-block').remove();
+        $('#main-outlet').find('.rstudio-banner').remove();
+        const headerHtml = `<div class="rstudio-banner">
+            <div class="rstudio-block b1">${settings.discovery_page_block_html_1}</div>
+            <div class="rstudio-block b2">${settings.discovery_page_block_html_2}</div>
+            <div class="rstudio-block b3">${settings.discovery_page_block_html_3}</div>
+            </div>`;
+
+        const topBlock = `<div class="rstudio-top-block">
+        ${settings.discovery_page_top_block_html}
+        </div>
+        `;
+
+        $('#main-outlet').prepend(topBlock+headerHtml);
+
+        if(settings.discovery_javascript_code) {
+            eval(settings.discovery_javascript_code);
+        }
+       },
+
+    @on('willDestroyElement')
+    removeBanner(){
+        $('#main-outlet').find('.rstudio-top-block').remove();
+        $('#main-outlet').find('.rstudio-banner').remove();
+    }
+   });
+}
