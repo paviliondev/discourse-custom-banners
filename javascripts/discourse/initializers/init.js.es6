@@ -83,7 +83,6 @@ const init = (api) => {
     removeBanner(){
         this.$().closest('#main-outlet').find('.rstudio-top-block').remove();
         this.$().closest('#main-outlet').find('.rstudio-banner').remove();
-
     }
    });
 } 
