@@ -28,6 +28,9 @@ const init = (api) => {
    api.modifyClass('component:topic-list', {
     @on('didRender')
     applyMods() {
+        if(this.site.isMobileDevice) {
+            return;
+        }
         // schedule('afterRender', () => {
             const category = this.get('category');
             if(category) {
@@ -80,6 +83,9 @@ const init = (api) => {
     } ,
     @on('willDestroyElement')
     removeBanner(){
+        if(this.site.isMobileDevice) {
+            return;
+        }
         this.$().closest('#main-outlet').find('.rstudio-top-block').remove();
         this.$().closest('#main-outlet').find('.rstudio-banner').remove();
     }
@@ -88,6 +94,10 @@ const init = (api) => {
    api.modifyClass('component:categories-only', {
        @on('didRender')
        applyMods(){
+        if(this.site.isMobileDevice) {
+            return;
+        }
+
         $('#main-outlet').find('.rstudio-top-block').remove();
         $('#main-outlet').find('.rstudio-banner').remove();
         const headerHtml = `<div class="rstudio-banner">
@@ -110,6 +120,10 @@ const init = (api) => {
 
     @on('willDestroyElement')
     removeBanner(){
+        if(this.site.isMobileDevice) {
+            return;
+        }
+
         $('#main-outlet').find('.rstudio-top-block').remove();
         $('#main-outlet').find('.rstudio-banner').remove();
     }
