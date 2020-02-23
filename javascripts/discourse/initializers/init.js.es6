@@ -52,7 +52,7 @@ const init = (api) => {
                     }
                     $(categoryHeaderHtml).append(node);
                 });
-
+                $('.category-heading>p').hide();
                 this.$().closest('#main-outlet').prepend(categoryHeaderHtml);
                 if(renderSettings.javascript_code) {
                     eval(renderSettings.javascript_code);
