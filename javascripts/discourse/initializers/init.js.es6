@@ -28,10 +28,10 @@ const init = (api) => {
    api.modifyClass('component:topic-list', {
     @on('didRender')
     applyMods() {
-        if(this.site.isMobileDevice) {
+        if(this.site.isMobileDevice || !this.get('discoveryList')) {
             return;
         }
-        // schedule('afterRender', () => {
+        scheduleOnce('afterRender', () => {
             const category = this.get('category');
             if(category) {
                 this.$().closest('#main-outlet').find('.rstudio-top-block').remove();
@@ -79,15 +79,15 @@ const init = (api) => {
                     eval(settings.discovery_javascript_code);
                 }
             }
-        //   });
+          });
     } ,
     @on('willDestroyElement')
     removeBanner(){
         if(this.site.isMobileDevice) {
             return;
         }
-        this.$().closest('#main-outlet').find('.rstudio-top-block').remove();
-        this.$().closest('#main-outlet').find('.rstudio-banner').remove();
+        $('.rstudio-top-block').remove();
+        $('.rstudio-banner').remove();
     }
    });
 
@@ -124,8 +124,8 @@ const init = (api) => {
             return;
         }
 
-        $('#main-outlet').find('.rstudio-top-block').remove();
-        $('#main-outlet').find('.rstudio-banner').remove();
+        $('.rstudio-top-block').remove();
+        $('.rstudio-banner').remove();
     }
    });
 }
