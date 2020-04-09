@@ -41,7 +41,9 @@ const categoryHtmlDisplay = (categorySlug) => {
         $(categoryHeaderHtml).append(node);
     });
     $('.category-heading').hide();
-    if($('[id^="global-notice"]').length) {
+    if($('#banner').length){
+        $(categoryHeaderHtml).insertAfter($('#banner').closest('.container'));
+    } else if($('[id^="global-notice"]').length) {
         $(categoryHeaderHtml).insertAfter($('[id^="global-notice"]').last());
     } else {
         $('#main-outlet').prepend(categoryHeaderHtml);
@@ -65,8 +67,9 @@ const discoveryHtmlDisplay = () => {
                 ${settings.discovery_page_top_block_html}
                 </div>
                 `;
-                
-                if($('[id^="global-notice"]').length) {
+                if($('#banner').length){
+                    $(topBlock+headerHtml).insertAfter($('#banner').closest('.container'));
+                } else if($('[id^="global-notice"]').length) {
                     $(topBlock+headerHtml).insertAfter($('[id^="global-notice"]').last());
                 } else {
                     $('#main-outlet').prepend(topBlock+headerHtml);
