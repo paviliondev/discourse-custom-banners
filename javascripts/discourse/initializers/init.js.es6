@@ -87,17 +87,31 @@ const removeBanners = () => {
   $('.rstudio-banner').remove();
 }
 
+const nonCategorySettings = [
+  'discovery_page_block_html_1',
+  'discovery_page_block_html_2',
+  'discovery_page_block_html_3',
+  'discovery_page_top_block_html'
+]
+
 const init = (api) => {
   api.modifyClass('component:topic-list', {
     @on('didRender')
     applyMods() {
-      if( this.site.isMobileDevice || !this.get('discoveryList')) {
+      if (this.site.isMobileDevice || !this.get('discoveryList')) {
         return;
       }
+      
       scheduleOnce('afterRender', () => {
         const category = this.get('category');
+        const nonCategoryEnabled = nonCategorySettings.some(name => {
+          return settings[name].length;
+        });
+        
         if (category) {
           categoryHtmlDisplay(category.slug);
+        } else if (nonCategoryEnabled) {
+          discoveryHtmlDisplay();
         }
       });
     },
