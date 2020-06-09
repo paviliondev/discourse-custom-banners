@@ -1,28 +1,25 @@
 .rstudio-banner, .rstudio-top-block {
-    height: 300px;
-    width: 100%;
-    margin: 5px 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    background-clip: border-box
+  height: 300px;
+  width: 100%;
+  margin: 5px 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-clip: border-box;
 }
 .rstudio-top-block {
-    border: 1px solid black;
-    border-radius: 8px;
-    background-clip: border-box;
+  border: 1px solid black;
+  border-radius: 8px;
+  background-clip: border-box;
 }
-
 .rstudio-block {
-    width: 32%;
-    height: 95%;
-    margin: 5px;
-    border: 1px solid black;
-    display: inline-block;
-    border-radius: 8px;
+  width: 32%;
+  height: 95%;
+  margin: 5px;
+  border: 1px solid black;
+  display: inline-block;
+  border-radius: 8px;
 }
-
 .rstudio-cat-block {
-    border: 1px solid black;
-    display: inline-block;
+  display: inline-block;
 }
