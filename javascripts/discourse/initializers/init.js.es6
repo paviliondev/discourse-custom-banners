@@ -107,7 +107,7 @@ const init = (api) => {
         const nonCategoryEnabled = nonCategorySettings.some(name => {
           return settings[name].length;
         });
-        
+                
         if (category) {
           categoryHtmlDisplay(category.slug);
         } else if (nonCategoryEnabled) {
@@ -128,11 +128,17 @@ const init = (api) => {
   api.modifyClass('component:categories-only', {
     @on('didRender')
     applyMods(){
+      const nonCategoryEnabled = nonCategorySettings.some(name => {
+        return settings[name].length;
+      });
+      
       if (this.site.isMobileDevice) {
         return;
       }
-
-      discoveryHtmlDisplay();
+      
+      if (nonCategoryEnabled) {
+        discoveryHtmlDisplay();
+      }
     },
 
     @on('willDestroyElement')
