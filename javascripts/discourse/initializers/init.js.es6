@@ -153,13 +153,11 @@ const init = (api) => {
   api.modifyClass('component:discourse-topic', {
     @on('didRender')
     applyMods(){
-      if (this.site.isMobileDevice) {
-        return;
+      if (this.site.isMobileDevice) return;
+      const category = this.get('topic.category');
+      if (category) {
+        scheduleOnce('afterRender', () => categoryHtmlDisplay(category.slug));
       }
-      scheduleOnce('afterRender',() => {
-        const category = this.get('topic.category');
-        categoryHtmlDisplay(category.slug);
-      });
     },
 
     @on('willDestroyElement')
