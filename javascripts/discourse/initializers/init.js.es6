@@ -96,6 +96,13 @@ const nonCategorySettings = [
 
 const init = (api) => {
   api.modifyClass('component:topic-list', {
+    @on('didInsertElement')
+    applyId() {
+      scheduleOnce('afterRender', () => {
+        $('.list-controls').attr('id', 'topics');
+      });
+    },
+    
     @on('didRender')
     applyMods() {
       if (this.site.isMobileDevice || !this.get('discoveryList')) {
