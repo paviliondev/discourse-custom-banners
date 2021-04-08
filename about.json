@@ -1,10 +1,8 @@
 {
   "name": "Custom Banners",
-  "about_url": null,
-  "license_url": null,
+  "about_url": "https://github.com/paviliondev/discourse-custom-banners",
+  "license_url": "https://github.com/paviliondev/discourse-custom-banners",
   "component": true,
-  "assets": {
-  },
-  "color_schemes": {
-  }
+  "assets": {},
+  "color_schemes": {}
 }
