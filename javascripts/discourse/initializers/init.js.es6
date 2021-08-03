@@ -3,7 +3,7 @@ import {
   default as computed,
   observes,
   on
-} from "ember-addons/ember-computed-decorators";
+} from "discourse-common/utils/decorators";
 import { scheduleOnce, schedule } from "@ember/runloop";
 
 export default {
@@ -30,11 +30,11 @@ const categoryHtmlDisplay = (categorySlug) => {
   const cat = catListParsed.find(obj => obj.category_slug == categorySlug);
   if (!cat) return;
   const renderSettings = cat;
-  const categoryHeaderHtml = $.parseHTML(`<div class="rstudio-banner"></div>`);
+  const categoryHeaderHtml = $.parseHTML(`<div class="custom-banner"></div>`);
   $(categoryHeaderHtml).css('height', renderSettings.height);
 
   renderSettings.boxes.forEach((box) => {
-    const node = $.parseHTML(`<div class="rstudio-cat-block">${box.content}</div>`);
+    const node = $.parseHTML(`<div class="custom-cat-block">${box.content}</div>`);
     $(node).css("width", box.width);
     if (box.id) {
       $(node).attr('id', box.id);
@@ -59,13 +59,13 @@ const categoryHtmlDisplay = (categorySlug) => {
 
 const discoveryHtmlDisplay = () => {
   removeBanners();
-  const headerHtml = `<div class="rstudio-banner">
-    <div class="rstudio-block b1">${settings.discovery_page_block_html_1}</div>
-    <div class="rstudio-block b2">${settings.discovery_page_block_html_2}</div>
-    <div class="rstudio-block b3">${settings.discovery_page_block_html_3}</div>
+  const headerHtml = `<div class="custom-banner">
+    <div class="banner-block b1">${settings.discovery_page_block_html_1}</div>
+    <div class="banner-block b2">${settings.discovery_page_block_html_2}</div>
+    <div class="banner-block b3">${settings.discovery_page_block_html_3}</div>
     </div>`;
 
-  const topBlock = `<div class="rstudio-top-block">
+  const topBlock = `<div class="custom-top-block">
     ${settings.discovery_page_top_block_html}
   </div>`;
   
@@ -83,8 +83,8 @@ const discoveryHtmlDisplay = () => {
 }
 
 const removeBanners = () => {
-  $('.rstudio-top-block').remove();
-  $('.rstudio-banner').remove();
+  $('.custom-top-block').remove();
+  $('.custom-banner').remove();
 }
 
 const nonCategorySettings = [

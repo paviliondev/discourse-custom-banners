@@ -1,6 +1,6 @@
 
 
-.rstudio-top-block {
+.custom-top-block {
   display: block;
   text-align: center;
   padding-top: 2em;
@@ -11,7 +11,7 @@
   overflow: hidden;
 }
 
-.rstudio-top-block img {
+.custom-top-block img {
   padding: 50px 30px;
   width: 65%;
   max-width: 670px;
@@ -19,18 +19,18 @@
 
 
 @media only screen and (max-width: 767px) {
-  .rstudio-block {
+  .banner-block {
     margin: 20px 30px !important;
   }
 }
 
 .badge-wrapper.box {
 }
-.rstudio-cat-block {
+.custom-cat-block {
   display: inline-block;
 }
 
-.rstudio-block {
+.banner-block {
   font-family: 'Source Sans Pro', sans-serif;
   text-align: center;
   font-weight: 500;
@@ -47,19 +47,19 @@
   border:2px solid transparent;
   text-transform: uppercase;
 }
-.rstudio-block a {
+.banner-block a {
     color:#404040;
 }
 
 
-.rstudio-block img {
+.banner-block img {
   height: 58%;
   width: 58%;
   padding-bottom: 24px;
 }
 
 
-h1.rstudio-news-banner {
+h1.custom-news-banner {
   font-family: 'Source Sans Pro', sans-serif;
   text-align: center;
   font-weight: 300;
@@ -72,7 +72,7 @@ h1.rstudio-news-banner {
   background-color: #f8f8f8;
 }
 
-.rstudio-banner {
+.custom-banner {
   width: 100%;
   margin: 5px 0;
   display: flex;
