@@ -13,3 +13,6 @@ discovery_page_top_block_html:
 discovery_categories_html:
   default: ""
   type: list
+topic_categories_html:
+  default: ""
+  type: list

@@ -73,6 +73,60 @@ const categoryHtmlDisplay = (categorySlug, queryParams) => {
   }
 };
 
+const topicHtmlDisplay = (categorySlug) => {
+  removeBanners();
+  const catList = settings.discovery_categories_html.split("|");
+  const catListParsed = catList.map((obj) => jsonParseSafe(obj));
+  const catSettingsList = catListParsed.filter(
+    (obj) => obj.category_slug == categorySlug
+  );
+
+  const topicCatList = settings.topic_categories_html.split("|");
+  const topicCatListParsed = topicCatList.map((obj) => jsonParseSafe(obj));
+  const topicCatSettingsList = topicCatListParsed.filter(
+    (obj) => obj.category_slug == categorySlug
+  );
+
+  const topicRenderSettings = topicCatSettingsList.find(
+    (obj) => obj.category_slug == categorySlug
+  );
+
+  // we'll fall back to a tagless category setting if exists
+  const categoryRenderSettings = catSettingsList.find((obj) => !obj.tag);
+
+  const renderSettings = topicRenderSettings
+    ? topicRenderSettings
+    : categoryRenderSettings;
+
+  if (!renderSettings) return; // topic not in category with banner
+
+  const topicHeaderHtml = $.parseHTML(`<div class="custom-banner"></div>`);
+  $(topicHeaderHtml).css("height", renderSettings.height);
+
+  renderSettings.boxes.forEach((box) => {
+    const node = $.parseHTML(
+      `<div class="custom-cat-block">${box.content}</div>`
+    );
+    $(node).css("width", box.width);
+    if (box.id) {
+      $(node).attr("id", box.id);
+    }
+    $(topicHeaderHtml).append(node);
+  });
+
+  if ($("#banner").length) {
+    $(topicHeaderHtml).insertAfter($("#banner").closest(".container"));
+  } else if ($('[id^="global-notice"]').length) {
+    $(topicHeaderHtml).insertAfter($('[id^="global-notice"]').last());
+  } else {
+    $("#main-outlet").prepend(topicHeaderHtml);
+  }
+
+  if (renderSettings.javascript_code) {
+    eval(renderSettings.javascript_code);
+  }
+};
+
 const discoveryHtmlDisplay = () => {
   removeBanners();
   const headerHtml = `<div class="custom-banner">
@@ -178,11 +232,8 @@ const init = (api) => {
     applyMods() {
       if (this.site.isMobileDevice) return;
       const category = this.get("topic.category");
-      const queryParams = this.get("router.currentRoute.queryParams");
       if (category) {
-        scheduleOnce("afterRender", () =>
-          categoryHtmlDisplay(category.slug, queryParams)
-        );
+        scheduleOnce("afterRender", () => topicHtmlDisplay(category.slug));
       }
     },
 
