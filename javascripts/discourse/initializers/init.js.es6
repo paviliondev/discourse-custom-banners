@@ -5,6 +5,7 @@ import {
   on,
 } from "discourse-common/utils/decorators";
 import { scheduleOnce, schedule } from "@ember/runloop";
+import { inject as service } from "@ember/service";
 
 export default {
   name: "custom-banners-init",
@@ -23,13 +24,26 @@ const jsonParseSafe = (json) => {
   return obj;
 };
 
-const categoryHtmlDisplay = (categorySlug) => {
+const categoryHtmlDisplay = (categorySlug, queryParams) => {
   removeBanners();
   const catList = settings.discovery_categories_html.split("|");
   const catListParsed = catList.map((obj) => jsonParseSafe(obj));
-  const cat = catListParsed.find((obj) => obj.category_slug == categorySlug);
-  if (!cat) return;
-  const renderSettings = cat;
+  const catSettingsList = catListParsed.filter(
+    (obj) => obj.category_slug == categorySlug
+  );
+
+  const perTagRenderSettings = catSettingsList.find(
+    (obj) => obj.tag == queryParams.tags
+  );
+
+  const fallbackRenderSettings = catSettingsList.find((obj) => !obj.tag);
+
+  const renderSettings = perTagRenderSettings
+    ? perTagRenderSettings
+    : fallbackRenderSettings;
+
+  if (!renderSettings) return;
+
   const categoryHeaderHtml = $.parseHTML(`<div class="custom-banner"></div>`);
   $(categoryHeaderHtml).css("height", renderSettings.height);
 
@@ -98,6 +112,10 @@ const nonCategorySettings = [
 
 const init = (api) => {
   api.modifyClass("component:topic-list", {
+    pluginId: "discourse-custom-banners",
+    // need the router for query params
+    router: service(),
+
     @on("didRender")
     applyMods() {
       if (this.site.isMobileDevice || !this.get("discoveryList")) {
@@ -109,9 +127,10 @@ const init = (api) => {
         const nonCategoryEnabled = nonCategorySettings.some((name) => {
           return settings[name].length;
         });
+        const queryParams = this.get("router.currentRoute.queryParams");
 
         if (category) {
-          categoryHtmlDisplay(category.slug);
+          categoryHtmlDisplay(category.slug, queryParams);
         } else if (nonCategoryEnabled) {
           discoveryHtmlDisplay();
         }
@@ -153,12 +172,17 @@ const init = (api) => {
   });
 
   api.modifyClass("component:discourse-topic", {
+    router: service(),
+
     @on("didRender")
     applyMods() {
       if (this.site.isMobileDevice) return;
       const category = this.get("topic.category");
+      const queryParams = this.get("router.currentRoute.queryParams");
       if (category) {
-        scheduleOnce("afterRender", () => categoryHtmlDisplay(category.slug));
+        scheduleOnce("afterRender", () =>
+          categoryHtmlDisplay(category.slug, queryParams)
+        );
       }
     },
 
