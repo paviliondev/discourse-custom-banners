@@ -24,9 +24,14 @@ const jsonParseSafe = (json) => {
   return obj;
 };
 
-const categoryHtmlDisplay = (categorySlug, queryParams) => {
+const categoryHtmlDisplay = (categorySlug, queryParams, isMobileDevice) => {
   removeBanners();
-  const catList = settings.discovery_categories_html.split("|");
+
+  const discoveryCategoriesHtml = isMobileDevice
+    ? settings.discovery_categories_mobile_html
+    : settings.discovery_categories_html;
+
+  const catList = discoveryCategoriesHtml.split("|");
   const catListParsed = catList.map((obj) => jsonParseSafe(obj));
   const catSettingsList = catListParsed.filter(
     (obj) => obj.category_slug == categorySlug
@@ -73,15 +78,24 @@ const categoryHtmlDisplay = (categorySlug, queryParams) => {
   }
 };
 
-const topicHtmlDisplay = (categorySlug) => {
+const topicHtmlDisplay = (categorySlug, isMobileDevice) => {
   removeBanners();
-  const catList = settings.discovery_categories_html.split("|");
+
+  const discoveryCategoriesHtml = isMobileDevice
+    ? settings.discovery_categories_mobile_html
+    : settings.discovery_categories_html;
+
+  const catList = discoveryCategoriesHtml.split("|");
   const catListParsed = catList.map((obj) => jsonParseSafe(obj));
   const catSettingsList = catListParsed.filter(
     (obj) => obj.category_slug == categorySlug
   );
 
-  const topicCatList = settings.topic_categories_html.split("|");
+  const topicCategoriesHtml = isMobileDevice
+    ? settings.topic_categories_mobile_html
+    : settings.topic_categories_html;
+
+  const topicCatList = topicCategoriesHtml.split("|");
   const topicCatListParsed = topicCatList.map((obj) => jsonParseSafe(obj));
   const topicCatSettingsList = topicCatListParsed.filter(
     (obj) => obj.category_slug == categorySlug
@@ -172,10 +186,6 @@ const init = (api) => {
 
     @on("didRender")
     applyMods() {
-      if (this.site.isMobileDevice || !this.get("discoveryList")) {
-        return;
-      }
-
       scheduleOnce("afterRender", () => {
         const category = this.get("category");
         const nonCategoryEnabled = nonCategorySettings.some((name) => {
@@ -184,7 +194,11 @@ const init = (api) => {
         const queryParams = this.get("router.currentRoute.queryParams");
 
         if (category) {
-          categoryHtmlDisplay(category.slug, queryParams);
+          categoryHtmlDisplay(
+            category.slug,
+            queryParams,
+            this.site.isMobileDevice
+          );
         } else if (nonCategoryEnabled) {
           discoveryHtmlDisplay();
         }
@@ -226,22 +240,18 @@ const init = (api) => {
   });
 
   api.modifyClass("component:discourse-topic", {
-    router: service(),
-
     @on("didRender")
     applyMods() {
-      if (this.site.isMobileDevice) return;
       const category = this.get("topic.category");
       if (category) {
-        scheduleOnce("afterRender", () => topicHtmlDisplay(category.slug));
+        scheduleOnce("afterRender", () =>
+          topicHtmlDisplay(category.slug, this.site.isMobileDevice)
+        );
       }
     },
 
     @on("willDestroyElement")
     removeMods() {
-      if (this.site.isMobileDevice) {
-        return;
-      }
       removeBanners();
     },
   });
