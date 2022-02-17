@@ -191,7 +191,8 @@ const init = (api) => {
         const nonCategoryEnabled = nonCategorySettings.some((name) => {
           return settings[name].length;
         });
-        const queryParams = this.get("router.currentRoute.queryParams");
+        const currentRoute = this.get("router.currentRoute");
+        const queryParams = currentRoute.queryParams;
 
         if (category) {
           categoryHtmlDisplay(
@@ -199,7 +200,7 @@ const init = (api) => {
             queryParams,
             this.site.isMobileDevice
           );
-        } else if (nonCategoryEnabled) {
+        } else if (nonCategoryEnabled && currentRoute.parent.name === "discovery") {
           discoveryHtmlDisplay();
         }
       });
