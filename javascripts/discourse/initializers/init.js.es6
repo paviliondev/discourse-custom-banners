@@ -6,6 +6,7 @@ import {
 } from "discourse-common/utils/decorators";
 import { scheduleOnce, schedule } from "@ember/runloop";
 import { inject as service } from "@ember/service";
+import { getOwner } from "discourse-common/lib/get-owner";
 
 export default {
   name: "custom-banners-init",
@@ -179,7 +180,7 @@ const nonCategorySettings = [
 ];
 
 const init = (api) => {
-  api.modifyClass("component:topic-list", {
+  api.modifyClass("component:discovery-topics-list", {
     pluginId: "discourse-custom-banners",
     // need the router for query params
     router: service(),
@@ -187,7 +188,8 @@ const init = (api) => {
     @on("didRender")
     applyMods() {
       scheduleOnce("afterRender", () => {
-        const category = this.get("category");
+        const controller = getOwner(this).lookup("controller:discovery/topics");
+        const category = controller.get("category");
         const nonCategoryEnabled = nonCategorySettings.some((name) => {
           return settings[name].length;
         });
