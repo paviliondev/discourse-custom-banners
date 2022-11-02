@@ -7,6 +7,7 @@ import {
 import { scheduleOnce, schedule } from "@ember/runloop";
 import { inject as service } from "@ember/service";
 import { getOwner } from "discourse-common/lib/get-owner";
+import Session from "discourse/models/session";
 
 export default {
   name: "custom-banners-init",
@@ -144,14 +145,25 @@ const topicHtmlDisplay = (categorySlug, isMobileDevice) => {
 
 const discoveryHtmlDisplay = () => {
   removeBanners();
+
+  const darkScheme = Session.currentProp("defaultColorSchemeIsDark");
+  const block1 = settings.discovery_page_block_html_1;
+  const block2 = settings.discovery_page_block_html_2;
+  const block3 = settings.discovery_page_block_html_3;
+  const darkBlock1 = settings.discovery_page_block_html_1_dark;
+  const darkBlock2 = settings.discovery_page_block_html_2_dark;
+  const darkBlock3 = settings.discovery_page_block_html_3_dark;
+  const pageBlock = settings.discovery_page_top_block_html;
+  const darkPageBlock = settings.discovery_page_top_block_html_dark;
+
   const headerHtml = `<div class="custom-banner">
-    <div class="banner-block b1">${settings.discovery_page_block_html_1}</div>
-    <div class="banner-block b2">${settings.discovery_page_block_html_2}</div>
-    <div class="banner-block b3">${settings.discovery_page_block_html_3}</div>
+    <div class="banner-block b1">${darkScheme ? darkBlock1 : block1}</div>
+    <div class="banner-block b2">${darkScheme ? darkBlock2 : block2}</div>
+    <div class="banner-block b3">${darkScheme ? darkBlock3 : block3}</div>
     </div>`;
 
   const topBlock = `<div class="custom-top-block">
-    ${settings.discovery_page_top_block_html}
+    ${darkScheme ? darkPageBlock: pageBlock}
   </div>`;
 
   if ($("#banner").length) {
@@ -176,7 +188,11 @@ const nonCategorySettings = [
   "discovery_page_block_html_1",
   "discovery_page_block_html_2",
   "discovery_page_block_html_3",
+  "discovery_page_block_html_1_dark",
+  "discovery_page_block_html_2_dark",
+  "discovery_page_block_html_3_dark",
   "discovery_page_top_block_html",
+  "discovery_page_top_block_html_dark",
 ];
 
 const init = (api) => {

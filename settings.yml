@@ -10,6 +10,18 @@ discovery_page_block_html_3:
 discovery_page_top_block_html:
   default: ""
   type: string
+discovery_page_block_html_1_dark:
+  default: ""
+  type: string
+discovery_page_block_html_2_dark:
+  default: ""
+  type: string
+discovery_page_block_html_3_dark:
+  default: ""
+  type: string
+discovery_page_top_block_html_dark:
+  default: ""
+  type: string
 discovery_categories_html:
   default: ""
   type: list
